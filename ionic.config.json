@@ -1,0 +1,7 @@
+{
+  "name": "alarme-inclinacao-queda",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
