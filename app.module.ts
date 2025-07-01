@@ -1,0 +1,25 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AcelerometroService } from '../services/acelerometro.service';
+import { AlarmeService } from '../services/alarme.service';
+import { LogsService } from '../services/logs.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule
+  ],
+  providers: [
+    AcelerometroService,
+    AlarmeService,
+    LogsService
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}

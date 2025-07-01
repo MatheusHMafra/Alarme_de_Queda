@@ -1,0 +1,30 @@
+<div class="home-container">
+  <h1>Alarme de Inclinação/Queda</h1>
+  <p>Monitorando a inclinação e queda do dispositivo.</p>
+  
+  <div class="status">
+    <h2>Status do Alarme</h2>
+    <p *ngIf="isAlarmActive; else alarmInactive">Alarme Ativo</p>
+    <ng-template #alarmInactive>
+      <p>Alarme Inativo</p>
+    </ng-template>
+  </div>
+
+  <div class="sensitivity-settings">
+    <h2>Configurações de Sensibilidade</h2>
+    <label for="sensitivity">Sensibilidade:</label>
+    <input type="range" id="sensitivity" min="1" max="10" [(ngModel)]="sensitivityLevel" />
+    <p>Nível de Sensibilidade: {{ sensitivityLevel }}</p>
+  </div>
+
+  <button (click)="toggleAlarm()">
+    {{ isAlarmActive ? 'Desativar Alarme' : 'Ativar Alarme' }}
+  </button>
+
+  <div class="logs">
+    <h2>Últimos Alertas</h2>
+    <ul>
+      <li *ngFor="let log of alertLogs">{{ log }}</li>
+    </ul>
+  </div>
+</div>

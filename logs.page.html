@@ -1,0 +1,7 @@
+<div class="logs-container">
+  <h1>Logs de Alertas</h1>
+  <div *ngFor="let log of logs" class="log-entry">
+    <p><strong>Data:</strong> {{ log.date }}</p>
+    <p><strong>Mensagem:</strong> {{ log.message }}</p>
+  </div>
+</div>

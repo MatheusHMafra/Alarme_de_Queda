@@ -1,0 +1,24 @@
+<div class="painel-container">
+  <h1>Painel de Configuração do Alarme</h1>
+  
+  <form>
+    <div class="form-group">
+      <label for="sensibilidade">Sensibilidade do Alarme:</label>
+      <input type="range" id="sensibilidade" name="sensibilidade" min="1" max="10" step="1" />
+    </div>
+    
+    <div class="form-group">
+      <label for="alarmeAtivo">Alarme Ativo:</label>
+      <input type="checkbox" id="alarmeAtivo" name="alarmeAtivo" />
+    </div>
+    
+    <button type="submit">Salvar Configurações</button>
+  </form>
+
+  <div class="logs">
+    <h2>Logs de Alertas</h2>
+    <ul>
+      <!-- Os logs de alertas serão exibidos aqui -->
+    </ul>
+  </div>
+</div>
