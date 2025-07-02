@@ -1,0 +1,7 @@
+{
+  "name": "alarme_de_queda",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
