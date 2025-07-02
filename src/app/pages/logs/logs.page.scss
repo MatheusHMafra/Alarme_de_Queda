@@ -1,0 +1,161 @@
+.logs-container {
+  padding: 16px;
+  max-width: 100%;
+}
+
+.logs-header {
+  text-align: center;
+  margin-bottom: 20px;
+  
+  h2 {
+    color: var(--ion-color-primary);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  
+  ion-segment {
+    margin: 0 auto;
+    max-width: 400px;
+  }
+}
+
+.logs-list {
+  .log-item {
+    .log-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      
+      ion-icon {
+        font-size: 20px;
+        margin-right: 12px;
+      }
+      
+      .log-meta {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        
+        .log-id {
+          font-size: 0.8em;
+          font-weight: 600;
+          color: var(--ion-color-medium);
+        }
+        
+        .log-date {
+          font-size: 0.9em;
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+    
+    .log-content {
+      .log-description {
+        margin: 0 0 8px 0;
+        font-size: 1em;
+        line-height: 1.4;
+      }
+      
+      .log-details {
+        small {
+          color: var(--ion-color-medium);
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}
+
+// Classes específicas para tipos de log
+.log-alerta {
+  border-left: 4px solid var(--ion-color-danger);
+  
+  .log-description {
+    font-weight: 600;
+    color: var(--ion-color-danger);
+  }
+}
+
+.log-sistema {
+  border-left: 4px solid var(--ion-color-primary);
+}
+
+.log-normal {
+  border-left: 4px solid var(--ion-color-medium);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ion-color-medium);
+  
+  ion-icon {
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.2em;
+  }
+  
+  p {
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.actions-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ion-color-light-shade);
+  
+  ion-button {
+    height: 48px;
+  }
+}
+
+// Responsividade
+@media (min-width: 768px) {
+  .logs-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+// Animações
+ion-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 12px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+ion-segment {
+  transition: all 0.3s ease;
+}
+
+// Estados de carregamento
+.loading-state {
+  text-align: center;
+  padding: 40px 20px;
+  
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+}

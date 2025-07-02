@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Painel de Configuração</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="painel-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="settings-outline"></ion-icon>
+          Configurações do Alarme
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="config-section">
+          <div class="config-item">
+            <ion-item>
+              <ion-toggle 
+                [(ngModel)]="configuracao.ativo" 
+                (ionChange)="toggleAlarme()"
+                color="primary">
+              </ion-toggle>
+              <ion-label slot="start">
+                <h2>Alarme Ativo</h2>
+                <p>{{ configuracao.ativo ? 'Sistema ativado' : 'Sistema desativado' }}</p>
+              </ion-label>
+            </ion-item>
+          </div>
+
+          <div class="config-item">
+            <ion-item>
+              <ion-label position="stacked">
+                <h2>Sensibilidade do Alarme</h2>
+                <p>Nível atual: {{ configuracao.sensibilidade }}/10</p>
+              </ion-label>
+            </ion-item>
+            <div class="range-container">
+              <ion-range
+                min="1"
+                max="10"
+                step="1"
+                snaps="true"
+                ticks="true"
+                [(ngModel)]="configuracao.sensibilidade"
+                (ionChange)="onSensibilidadeChange()"
+                color="primary">
+                <ion-label slot="start">1</ion-label>
+                <ion-label slot="end">10</ion-label>
+              </ion-range>
+            </div>
+            <div class="sensitivity-description">
+              <p>
+                <strong>{{ getSensibilityDescription() }}</strong>
+              </p>
+              <p>{{ getSensibilityDetails() }}</p>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="information-circle-outline"></ion-icon>
+          Status do Sistema
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="status-grid">
+          <div class="status-item">
+            <ion-icon 
+              [name]="alarmeAtivo ? 'shield-checkmark' : 'shield-outline'" 
+              [color]="alarmeAtivo ? 'success' : 'medium'">
+            </ion-icon>
+            <div>
+              <h3>Alarme</h3>
+              <p>{{ alarmeAtivo ? 'Ativo' : 'Inativo' }}</p>
+            </div>
+          </div>
+          
+          <div class="status-item">
+            <ion-icon 
+              [name]="monitorando ? 'pulse' : 'pulse-outline'" 
+              [color]="monitorando ? 'success' : 'medium'">
+            </ion-icon>
+            <div>
+              <h3>Monitoramento</h3>
+              <p>{{ monitorando ? 'Ativo' : 'Inativo' }}</p>
+            </div>
+          </div>
+          
+          <div class="status-item">
+            <ion-icon 
+              [name]="permissaoSensores ? 'checkmark-circle' : 'close-circle'" 
+              [color]="permissaoSensores ? 'success' : 'danger'">
+            </ion-icon>
+            <div>
+              <h3>Sensores</h3>
+              <p>{{ permissaoSensores ? 'Permitido' : 'Sem permissão' }}</p>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="build-outline"></ion-icon>
+          Ações
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="actions-section">
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            color="primary"
+            (click)="testarAlarme()">
+            <ion-icon name="flash" slot="start"></ion-icon>
+            Testar Alarme
+          </ion-button>
+          
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            color="warning"
+            (click)="limparLogs()">
+            <ion-icon name="trash" slot="start"></ion-icon>
+            Limpar Logs
+          </ion-button>
+          
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            color="secondary"
+            (click)="navegarPara('/logs')">
+            <ion-icon name="document-text" slot="start"></ion-icon>
+            Ver Todos os Logs
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

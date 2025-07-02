@@ -1,20 +1,121 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Blank
+      Alarme de Queda
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navegarPara('/painel')">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+      <ion-button (click)="navegarPara('/logs')">
+        <ion-icon name="document-text"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="home-container">
+    <div class="status-section">
+      <h2>Status do Sistema</h2>
+      
+      <ion-card [color]="alarmeAtivo ? 'success' : 'medium'">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon [name]="alarmeAtivo ? 'shield-checkmark' : 'shield-outline'"></ion-icon>
+            Alarme {{ alarmeAtivo ? 'Ativo' : 'Inativo' }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Monitoramento: {{ monitorando ? 'Ativo' : 'Inativo' }}</p>
+          <p>Sensibilidade: {{ configuracao.sensibilidade }}/10</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div class="controls-section">
+      <ion-button 
+        expand="block" 
+        [color]="alarmeAtivo ? 'danger' : 'success'"
+        (click)="toggleAlarme()"
+        [disabled]="!permissaoSensores">
+        <ion-icon [name]="alarmeAtivo ? 'stop-circle' : 'play-circle'" slot="start"></ion-icon>
+        {{ alarmeAtivo ? 'Desativar Alarme' : 'Ativar Alarme' }}
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="primary"
+        (click)="solicitarPermissao()"
+        *ngIf="!permissaoSensores">
+        <ion-icon name="lock-open" slot="start"></ion-icon>
+        Solicitar Permissão dos Sensores
+      </ion-button>
+    </div>
+
+    <div class="data-section" *ngIf="monitorando">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="analytics"></ion-icon>
+            Dados do Acelerômetro
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="acceleration-data">
+            <div class="axis-data">
+              <span class="axis-label">X:</span>
+              <span class="axis-value">{{ dadosAcelerometro.x.toFixed(2) }} m/s²</span>
+            </div>
+            <div class="axis-data">
+              <span class="axis-label">Y:</span>
+              <span class="axis-value">{{ dadosAcelerometro.y.toFixed(2) }} m/s²</span>
+            </div>
+            <div class="axis-data">
+              <span class="axis-label">Z:</span>
+              <span class="axis-value">{{ dadosAcelerometro.z.toFixed(2) }} m/s²</span>
+            </div>
+            <div class="axis-data magnitude">
+              <span class="axis-label">Magnitude:</span>
+              <span class="axis-value">{{ getMagnitude().toFixed(2) }} m/s²</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="alerts-section" *ngIf="ultimoAlerta">
+      <ion-card color="warning">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="warning"></ion-icon>
+            Último Alerta
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Tipo:</strong> {{ ultimoAlerta.tipo }}</p>
+          <p><strong>Mensagem:</strong> {{ ultimoAlerta.mensagem }}</p>
+          <p><strong>Data:</strong> {{ ultimoAlerta.data | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="recent-logs-section">
+      <h3>Últimos Logs</h3>
+      <ion-list>
+        <ion-item *ngFor="let log of logsRecentes; trackBy: trackByFn">
+          <ion-label>
+            <h3>{{ log.descricao }}</h3>
+            <p>{{ log.data | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="logsRecentes.length === 0">
+          <ion-label>
+            <p>Nenhum log disponível</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 </ion-content>

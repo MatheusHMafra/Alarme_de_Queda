@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Logs de Alertas</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="limparLogs()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="logs-container">
+    <div class="logs-header">
+      <h2>Histórico de Eventos</h2>
+      <p>Total de registros: {{ logs.length }}</p>
+    </div>
+
+    <div class="filter-section" *ngIf="logs.length > 0">
+      <ion-segment [(ngModel)]="filtroAtivo" (ionChange)="filtrarLogs()">
+        <ion-segment-button value="todos">
+          <ion-label>Todos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="alertas">
+          <ion-label>Alertas</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="sistema">
+          <ion-label>Sistema</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="logs-list" *ngIf="logsFiltrados.length > 0; else emptyState">
+      <ion-card *ngFor="let log of logsFiltrados; trackBy: trackByFn" 
+               [class]="getLogClass(log)">
+        <ion-card-content>
+          <div class="log-item">
+            <div class="log-header">
+              <ion-icon [name]="getLogIcon(log)" [color]="getLogColor(log)"></ion-icon>
+              <div class="log-meta">
+                <span class="log-id">#{{ log.id }}</span>
+                <span class="log-date">{{ log.data | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+              </div>
+            </div>
+            <div class="log-content">
+              <p class="log-description">{{ log.descricao }}</p>
+              <div class="log-details" *ngIf="log.alertaId > 0">
+                <small>Alerta ID: {{ log.alertaId }}</small>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <ion-icon name="document-text-outline" size="large"></ion-icon>
+        <h3>Nenhum log encontrado</h3>
+        <p *ngIf="filtroAtivo !== 'todos'">
+          Não há logs para o filtro "{{ getFilterLabel() }}"
+        </p>
+        <p *ngIf="filtroAtivo === 'todos'">
+          Os eventos do sistema aparecerão aqui quando ocorrerem.
+        </p>
+      </div>
+    </ng-template>
+
+    <!-- Botão para exportar logs -->
+    <div class="actions-section" *ngIf="logs.length > 0">
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="primary"
+        (click)="exportarLogs()">
+        <ion-icon name="download" slot="start"></ion-icon>
+        Exportar Logs
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
